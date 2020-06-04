@@ -1,0 +1,5 @@
+numExperiment:timeStamp usePhone
+1:0:0
+1:10:4475
+1:20:4468
+1:30:4444
