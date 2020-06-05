@@ -56,5 +56,8 @@ rm -f $metricsFile
 echo $cmdPromMaxMinExec >> $metricsFile
 echo $cmdPromMaxMinMem >> $metricsFile
 
+rm sumaInicialExec.txt
+rm sumaInicialMem.txt
+
 
 
