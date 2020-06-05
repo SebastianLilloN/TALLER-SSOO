@@ -1,5 +1,0 @@
-numExperiment:timeStamp usePhone
-0:0:0
-0:10:4333
-0:20:4383
-0:30:4261
