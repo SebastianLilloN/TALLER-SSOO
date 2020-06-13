@@ -149,6 +149,7 @@ echo $cmdPromMaxMinVisitorsI >> $evacuationFiles
 rm -f personasTotales.txt residentes.txt visitanteTipo1.txt
 
 #Parte 3
+#Basado en ejemplo de profesor
 
 usePhoneresults="usePhone-stats.txt"
 rm -f $usePhoneresults
