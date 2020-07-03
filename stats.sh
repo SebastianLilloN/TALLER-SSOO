@@ -98,11 +98,9 @@ rm -f $residents
 visitType1="visitanteTipo1.txt"
 rm -f $visitType1
 
-#residentAge="residenteEdad.txt"
-#rm -f $residentAge
+residentAge="residenteEdad.txt"
+rm -f $residentAge
 
-#visitAge="visitanteEdad.txt"
-#rm -f $visitAge
 
 for i in ${summaryFiles[*]};
 do
@@ -113,11 +111,38 @@ do
         echo $resident >> $residents
         visitType=$(cat $i | tail -n +2 | awk -F ':' 'BEGIN{sumVisitType1=0}; {if($3==1){sumVisitType1+=$8}} END{print sumVisitType1}')
         echo $visitType >> $visitType1
- #       for j in {0..3 }
-  #      do
-   #             residentAgeN=$(cat $i | tail -n +2 | awk -F ':' 'BEGIN{residentAge0=0}; {if($3==0 && $4==j){residentAge0+=$8}} END{print residentAge0}')
-    #            echo $residentAgeN >> $residentAge
-     #   done
+done
+
+printf "resident-G0:promedio:min:max \n" >> $evacuationFiles
+printf "resident-G1:promedio:min:max \n" >> $evacuationFiles
+printf "resident-G2:promedio:min:max \n" >> $evacuationFiles
+printf "resident-G3:promedio:min:max \n" >> $evacuationFiles
+printf "visitors-G0:promedio:min:max \n" >> $evacuationFiles
+printf "visitors-G1:promedio:min:max \n" >> $evacuationFiles
+printf "visitors-G2:promedio:min:max \n" >> $evacuationFiles
+printf "visitors-G3:promedio:min:max \n" >> $evacuationFiles
+
+
+for n in $(seq 0 3);
+do
+        for j in $(seq 0 1);
+        do
+                for i in ${summaryFiles[*]};
+                        do
+                                residentAgeN=$(cat $i | tail -n +2 | awk -F ':' 'BEGIN{residentAgeN=0}; {if($3=='$j' && $4=='$n'){residentAgeN+=$8}} END{print residentAgeN}')
+                                echo $residentAgeN >> $residentAge
+                        done
+        done
+        for m in $(seq 0 1);
+        do
+                cmdPromMaxMinResidentVisitantAge=$(cat $residentAge | awk 'BEGIN{ min=2**63-1; max=0}{ if($1<min){min=$1};\
+                                                                        if($1>max){max=$1};\
+                                                                        total+=$1; count+=1;\
+                                                                        } \
+                                                                        END { print total":"total/count":"min":"max}')
+
+                echo $cmdPromMaxMinResidentVisitantAge >> $evacuationFiles
+        done
 
 done
 
@@ -146,7 +171,7 @@ printf "visitorsI:promedio:min:max \n" >> $evacuationFiles
 echo $cmdPromMaxMinVisitorsI >> $evacuationFiles
 
 
-rm -f personasTotales.txt residentes.txt visitanteTipo1.txt
+rm -f personasTotales.txt residentes.txt visitanteTipo1.txt residenteEdad.txt
 
 #Parte 3
 #Basado en ejemplo de profesor
